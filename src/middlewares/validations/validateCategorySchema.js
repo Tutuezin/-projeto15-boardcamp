@@ -1,10 +1,10 @@
-import connection from "../database/db.js";
-import createCategorySchema from "../schemas/categorySchema.js";
+import connection from "../../database/db.js";
+import createCategorySchema from "../../schemas/categorySchema.js";
 
 async function validateCategoySchema(req, res, next) {
-  const name = req.body;
+  const newCategory = req.body;
 
-  const { error } = createCategorySchema.validate(name, {
+  const { error } = createCategorySchema.validate(newCategory, {
     abortEarly: false,
   });
 
@@ -14,7 +14,7 @@ async function validateCategoySchema(req, res, next) {
   }
 
   const { rows: categoryExists } = await connection.query(
-    `SELECT * FROM categories WHERE name = '${name.name}'`
+    `SELECT * FROM categories WHERE LOWER(name) = '${newCategory.name.toLowerCase()}'`
   );
 
   if (categoryExists.length > 0) {

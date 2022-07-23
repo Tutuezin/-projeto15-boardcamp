@@ -3,7 +3,7 @@ import {
   createCategory,
   getCategories,
 } from "../controller/categoryController.js";
-import validateCategoySchema from "../middlewares/validateCategorySchema.js";
+import validateCategoySchema from "../middlewares/validations/validateCategorySchema.js";
 
 const router = Router();
 
