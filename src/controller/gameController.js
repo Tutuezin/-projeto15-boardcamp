@@ -4,8 +4,6 @@ export async function getGames(req, res) {
   const { name } = req.query;
 
   try {
-    // const { rows: games } = await connection.query("SELECT * FROM games");
-
     const { rows: games } = name
       ? await connection.query(
           `

@@ -2,11 +2,14 @@ import connection from "../../database/db.js";
 import createCategorySchema from "../../schemas/categorySchema.js";
 
 async function validateCategoySchema(req, res, next) {
-  const newCategory = req.body;
+  const { name } = req.body;
 
-  const { error } = createCategorySchema.validate(newCategory, {
-    abortEarly: false,
-  });
+  const { error } = createCategorySchema.validate(
+    { name },
+    {
+      abortEarly: false,
+    }
+  );
 
   if (error) {
     const messageError = error.details.map((item) => item.message);
@@ -14,7 +17,8 @@ async function validateCategoySchema(req, res, next) {
   }
 
   const { rows: categoryExists } = await connection.query(
-    `SELECT * FROM categories WHERE LOWER(name) = '${newCategory.name.toLowerCase()}'`
+    `SELECT * FROM categories WHERE LOWER(name) = LOWER($1)`,
+    [name]
   );
 
   if (categoryExists.length > 0) {
