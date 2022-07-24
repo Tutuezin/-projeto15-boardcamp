@@ -7,7 +7,7 @@ export async function getCustomers(req, res) {
     const { rows: customers } = cpf
       ? await connection.query(
           `SELECT * FROM customers 
-          WHERE customers.cpf LIKE ($1);
+          WHERE customers.cpf LIKE $1;
           `,
           [`${cpf}%`]
         )
@@ -27,7 +27,7 @@ export async function getCustomer(req, res) {
     const { rows: customer } = await connection.query(
       `
       SELECT * FROM customers
-      WHERE customers.id = ($1);
+      WHERE customers.id = $1;
       `,
       [id]
     );
@@ -53,6 +53,27 @@ export async function createCustomer(req, res) {
     );
 
     res.sendStatus(201);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+}
+
+export async function updateCustomer(req, res) {
+  const { name, phone, cpf, birthday } = req.body;
+  const { id } = req.params;
+
+  try {
+    await connection.query(
+      `
+      UPDATE customers
+      SET name=$1 , phone=$2, cpf=$3, birthday=$4
+      WHERE id = $5;
+      `,
+      [name, phone, cpf, birthday, id]
+    );
+
+    res.sendStatus(200);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
