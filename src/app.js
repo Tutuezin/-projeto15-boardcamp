@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import categoryRouter from "./routes/categoryRouter.js";
 import gameRouter from "./routes/gameRouter.js";
 import customerRouter from "./routes/customerRouter.js";
+import rentalRouter from "./routes/rentalRouter.js";
 
 //CONFIGS
 dotenv.config();
@@ -17,6 +18,8 @@ app.use(categoryRouter);
 app.use(gameRouter);
 
 app.use(customerRouter);
+
+app.use(rentalRouter);
 
 //SERVER
 app.listen(process.env.PORT, () =>

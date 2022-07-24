@@ -4,6 +4,7 @@ import createCategorySchema from "../../schemas/categorySchema.js";
 async function validateCategoySchema(req, res, next) {
   const { name } = req.body;
 
+  //JOI
   const { error } = createCategorySchema.validate(
     { name },
     {
@@ -16,6 +17,7 @@ async function validateCategoySchema(req, res, next) {
     return res.status(422).send(messageError);
   }
 
+  //VALIDATIONS
   const { rows: categoryExists } = await connection.query(
     `SELECT * FROM categories WHERE LOWER(name) = LOWER($1);`,
     [name]

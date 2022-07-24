@@ -1,4 +1,3 @@
-import connection from "../../database/db.js";
 import createCustomerSchema from "../../schemas/customerSchema.js";
 
 async function validateCustomerSchema(req, res, next) {
