@@ -17,7 +17,7 @@ async function validateCategoySchema(req, res, next) {
   }
 
   const { rows: categoryExists } = await connection.query(
-    `SELECT * FROM categories WHERE LOWER(name) = LOWER($1)`,
+    `SELECT * FROM categories WHERE LOWER(name) = LOWER($1);`,
     [name]
   );
 

@@ -17,25 +17,25 @@ async function validateGameSchema(req, res, next) {
   //VALIDATIONS
   const { rows: gameExists } = await connection.query(
     `SELECT * FROM games 
-    WHERE LOWER(name) = LOWER($1)
+    WHERE LOWER(name) = LOWER($1);
     `,
     [name]
   );
 
   if (gameExists.length > 0) {
-    return res.status(409).send("JOGO JA EXISTE");
+    return res.status(409).send("Nome de jogo já utilizado!");
   }
 
   const { rows: categoriesExists } = await connection.query(
     `
     SELECT * FROM categories
-    WHERE id = $1
+    WHERE id = $1;
     `,
     [categoryId]
   );
 
   if (categoriesExists.length === 0) {
-    return res.status(409).send("CATEGORIA N EXISTE");
+    return res.status(409).send("Categoria inixistente");
   }
 
   next();

@@ -10,11 +10,15 @@ export async function getGames(req, res) {
       SELECT games.*, categories.name AS "categoryName"
       FROM games JOIN categories
       ON "categoryId" = categories.id
-      WHERE LOWER(games.name) LIKE LOWER($1)
+      WHERE LOWER(games.name) LIKE LOWER($1);
       `,
           [`${name}%`]
         )
-      : await connection.query("SELECT * FROM games");
+      : await connection.query(`
+      SELECT games.*, categories.name AS "categoryName"
+      FROM games JOIN categories
+      ON "categoryId" = categories.id;
+      `);
 
     res.status(200).send(games);
   } catch (error) {
@@ -27,7 +31,7 @@ export async function createGame(req, res) {
 
   try {
     await connection.query(
-      `INSERT INTO games (name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1, $2, $3, $4, $5)`,
+      `INSERT INTO games (name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1, $2, $3, $4, $5);`,
       [name, image, stockTotal, categoryId, pricePerDay]
     );
 
