@@ -4,7 +4,7 @@ import chalk from "chalk";
 import dotenv from "dotenv";
 import categoryRouter from "./routes/categoryRouter.js";
 import gameRouter from "./routes/gameRouter.js";
-import costumerRouter from "./routes/customerRouter.js";
+import customerRouter from "./routes/customerRouter.js";
 
 //CONFIGS
 dotenv.config();
@@ -16,7 +16,7 @@ app.use(categoryRouter);
 
 app.use(gameRouter);
 
-app.use(costumerRouter);
+app.use(customerRouter);
 
 //SERVER
 app.listen(process.env.PORT, () =>

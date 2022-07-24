@@ -1,8 +1,8 @@
 import connection from "../../database/db.js";
-import createCostumerSchema from "../../schemas/costumerSchema.js";
+import createCustomerSchema from "../../schemas/customerSchema.js";
 
-async function validateCostumerSchema(req, res, next) {
-  const { error } = createCostumerSchema.validate(req.body, {
+async function validateCustomerSchema(req, res, next) {
+  const { error } = createCustomerSchema.validate(req.body, {
     abortEarly: false,
   });
 
@@ -14,4 +14,4 @@ async function validateCostumerSchema(req, res, next) {
   next();
 }
 
-export default validateCostumerSchema;
+export default validateCustomerSchema;

@@ -1,6 +1,6 @@
 import joi from "joi";
 
-const createCostumerSchema = joi.object({
+const createCustomerSchema = joi.object({
   name: joi.string().required(),
   phone: joi
     .string()
@@ -16,4 +16,4 @@ const createCostumerSchema = joi.object({
   birthday: joi.date().required(),
 });
 
-export default createCostumerSchema;
+export default createCustomerSchema;

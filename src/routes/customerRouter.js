@@ -1,12 +1,13 @@
 import { Router } from "express";
 import {
-  getCostumers,
-  createCostumer,
-} from "../controller/costumerController.js";
+  getCustomers,
+  createCustomer,
+} from "../controller/customerController.js";
+import validateCustomerSchema from "../middlewares/validations/validateCustomerSchema.js";
 
 const router = Router();
 
-router.get("/costumers", getCostumers);
-router.post("/costumers", createCostumer);
+router.get("/customers", getCustomers);
+router.post("/customers", validateCustomerSchema, createCustomer);
 
 export default router;
