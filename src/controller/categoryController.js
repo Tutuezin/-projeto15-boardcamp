@@ -9,6 +9,7 @@ export async function getCategories(req, res) {
     res.status(200).send(categories);
   } catch (error) {
     console.error(error);
+    res.sendStatus(500);
   }
 }
 
@@ -23,5 +24,6 @@ export async function createCategory(req, res) {
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
+    res.sendStatus(500);
   }
 }

@@ -7,8 +7,8 @@ export async function getCustomers(req, res) {
     const { rows: customers } = cpf
       ? await connection.query(
           `SELECT * FROM customers 
-      WHERE customers.cpf LIKE ($1);
-      `,
+          WHERE customers.cpf LIKE ($1);
+          `,
           [`${cpf}%`]
         )
       : await connection.query("SELECT * FROM customers;");
@@ -16,6 +16,30 @@ export async function getCustomers(req, res) {
     res.status(200).send(customers);
   } catch (error) {
     console.error(error);
+    res.sendStatus(500);
+  }
+}
+
+export async function getCustomer(req, res) {
+  const { id } = req.params;
+
+  try {
+    const { rows: customer } = await connection.query(
+      `
+      SELECT * FROM customers
+      WHERE customers.id = ($1);
+      `,
+      [id]
+    );
+
+    if (customer.length === 0) {
+      res.status(404).send("Usuário não existe!");
+    }
+
+    res.status(200).send(customer[0]);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
   }
 }
 
@@ -31,5 +55,6 @@ export async function createCustomer(req, res) {
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
+    res.sendStatus(500);
   }
 }
