@@ -45,7 +45,6 @@ export async function createRental(req, res) {
   try {
     const { customerId, gameId, daysRented } = req.body;
     const rentDate = dayjs().format("YYYY-MM-DD");
-    console.log(rentDate);
 
     const { pricePerDay } = res.locals;
 
@@ -81,7 +80,11 @@ export async function finalizeRental(req, res) {
     );
 
     if (rental.length === 0) {
-      res.sendStatus(404);
+      return res.sendStatus(404);
+    }
+
+    if (rental[0].returnDate !== null) {
+      return res.sendStatus(400);
     }
 
     const delayFee = dayjs().diff(rental[0].rentDate, "day");
@@ -93,6 +96,39 @@ export async function finalizeRental(req, res) {
                 WHERE id = $3
             `,
       [dayjs().format("YYYY-MM-DD"), delayFee * game[0].pricePerDay, id]
+    );
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+}
+
+export default async function deleteRental(req, res) {
+  const { id } = req.params;
+
+  try {
+    const { rows: rental } = await connection.query(
+      `
+      SELECT * FROM rentals WHERE id = $1
+      `,
+      [id]
+    );
+
+    if (rental.length === 0) {
+      return res.sendStatus(404);
+    }
+
+    if (rental[0].returnDate === null) {
+      return res.status(400).send("Devolve ai pô! :P");
+    }
+
+    await connection.query(
+      `
+      DELETE FROM rentals WHERE id = $1
+      `,
+      [id]
     );
 
     res.sendStatus(200);
